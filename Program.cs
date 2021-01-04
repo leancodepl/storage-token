@@ -23,11 +23,16 @@ namespace LeanCode.StorageToken
             var sasBuilder = new BlobSasBuilder()
             {
                 BlobContainerName = GetConfig("ARM_CONTAINER_NAME"),
-                Resource = "b",
+                Resource = "c",
                 ExpiresOn = expires,
                 Protocol = SasProtocol.Https,
             };
-            sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.Write);
+            sasBuilder.SetPermissions(
+                BlobContainerSasPermissions.Read |
+                BlobContainerSasPermissions.Add |
+                BlobContainerSasPermissions.Create |
+                BlobContainerSasPermissions.Write |
+                BlobContainerSasPermissions.List);
             var sasToken = sasBuilder.ToSasQueryParameters(key, client.AccountName);
             System.Console.WriteLine(sasToken);
         }
